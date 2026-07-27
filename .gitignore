@@ -1,0 +1,9 @@
+Debug/
+.vs/
+*.suo
+*.user
+*.opt
+*.ncb
+*.sdf
+*.opensdf
+*.ipch
