@@ -16,6 +16,11 @@ Game::Game()
 
 Game::~Game()
 {
+	// cleanup UI and window
+	if (gameToolbar) delete gameToolbar;
+	if (gameBudgetbar) delete gameBudgetbar;
+	if (gameStatusBar) delete gameStatusBar;
+	if (pWind) delete pWind;
 }
 
 clicktype Game::getMouseClick(int& x, int& y) const
@@ -194,6 +199,19 @@ window* Game::getWind() const
 	return pWind;
 }
 
+
+void Game::drawFieldBackground() const
+{
+	window* pWind = getWind();
+	// Fill playing area between toolbar (top) and status bar (bottom)
+	pWind->SetBrush(WHITE);
+	pWind->SetPen(BLACK, 1);
+	pWind->DrawRectangle(0, 2 * config.toolBarHeight, config.windWidth, config.windHeight - config.statusBarHeight);
+	// Draw boundary line under the toolbar
+	pWind->SetPen(BLACK, 3);
+	pWind->DrawLine(0, 2 * config.toolBarHeight, config.windWidth, 2 * config.toolBarHeight);
+}
+
 void Game::go()
 {
 	int x, y;
@@ -201,12 +219,17 @@ void Game::go()
 
 	pWind->ChangeTitle("- - - - - - - - - - Farm Frenzy (CIE101-project) - - - - - - - - - -");
 
-	drawStatusBar();
-	drawBudgetBarTexts();
-	drawWarehouse();
-
 	do
 	{
+		// Draw order: background -> static objects -> dynamic objects -> UI
+		drawFieldBackground();
+		drawWarehouse();
+		gameBudgetbar->drawAnimals();
+		gameToolbar->draw();
+		gameBudgetbar->draw();
+		drawBudgetBarTexts();
+		drawStatusBar();
+
 		getMouseClick(x, y);
 
 		if (y >= 0 && y < config.toolBarHeight)
@@ -216,8 +239,6 @@ void Game::go()
 		else if (y >= config.toolBarHeight && y < 2 * config.toolBarHeight)
 		{
 			isExit = gameBudgetbar->handleClick(x, y);
-			drawStatusBar();
-			drawBudgetBarTexts();
 		}
 
 	} while (!isExit);

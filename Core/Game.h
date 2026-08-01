@@ -3,6 +3,9 @@
 #include "../UI/Toolbar.h"
 #include "../UI/BudgetBar.h"
 #include "../UI/StatusBar.h"
+#include "Drawable.h"
+#include <string>
+using std::string;
 
 class Game
 {
@@ -21,6 +24,8 @@ public:
 	int animalCount = 0;
 	string goal = "Collect $5000";
 
+
+	void drawFieldBackground() const;
 	Game();
 	~Game();
 

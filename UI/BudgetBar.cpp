@@ -109,6 +109,17 @@ void Budgetbar::draw() const
 	pWind->DrawLine(0, 2*config.toolBarHeight, pWind->GetWidth(), 2*config.toolBarHeight);
 }
 
+void Budgetbar::drawAnimals() const
+{
+	ChickIcon* chickIcon = (ChickIcon*)(iconsList[ICON_CHICK]);
+	if (chickIcon) {
+		for (int i = 0; i < chickIcon->count; i++) {
+			if (chickIcon->chickList[i])
+				chickIcon->chickList[i]->draw();
+		}
+	}
+}
+
 bool Budgetbar::handleClick(int x, int y)
 {
 	if (x > ANIMAL_COUNT * config.iconWidth)	//click outside toolbar boundaries
