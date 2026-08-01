@@ -33,6 +33,7 @@ public:
 	string getSrting() const;
 
 	window* CreateWind(int, int, int, int) const;
+    void AddAnimalRandomly();
 	void createToolbar();
 	void createBudgetbar();
 	void createStatusBar();
