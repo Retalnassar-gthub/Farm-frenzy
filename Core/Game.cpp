@@ -243,3 +243,14 @@ void Game::go()
 
 	} while (!isExit);
 }
+void Game::AddAnimalRandomly() {
+    const int minX = 50;
+    const int maxX = 750;
+    const int minY = 100;
+    const int maxY = 500;
+
+    int randX = minX + (std::rand() % (maxX - minX + 1));
+    int randY = minY + (std::rand() % (maxY - minY + 1));
+
+    Cow* newCow = new Cow(randX, randY);
+}
