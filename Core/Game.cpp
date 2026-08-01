@@ -1,8 +1,10 @@
 #include "Game.h"
 #include "../Config/GameConfig.h"
+#include <fstream>
 
 Game::Game()
 {
+	isPaused = false;
 	pWind = CreateWind(config.windWidth, config.windHeight, config.wx, config.wy);
 
 	createToolbar();
@@ -212,7 +214,7 @@ void Game::drawFieldBackground() const
 	pWind->DrawLine(0, 2 * config.toolBarHeight, config.windWidth, 2 * config.toolBarHeight);
 }
 
-void Game::go()
+void Game::go() const
 {
 	int x, y;
 	bool isExit = false;
@@ -253,4 +255,52 @@ void Game::AddAnimalRandomly() {
     int randY = minY + (std::rand() % (maxY - minY + 1));
 
     Cow* newCow = new Cow(randX, randY);
+}
+void Game::pauseGame()
+{
+	isPaused = true;
+	printMessage("Game Paused");
+}
+
+void Game::resumeGame()
+{
+	isPaused = false;
+	printMessage("Game Resumed");
+}
+
+void Game::saveGame() const
+{
+	ofstream saveFile("savegame.txt");
+	if (saveFile.is_open())
+	{
+		saveFile << budget << endl;
+		saveFile.close();
+		printMessage("Game Saved");
+	}
+	else
+	{
+		printMessage("Save Failed");
+	}
+}
+
+void Game::loadGame()
+{
+	ifstream saveFile("savegame.txt");
+	if (saveFile.is_open())
+	{
+		saveFile >> budget;
+		saveFile.close();
+		printMessage("Game Loaded");
+	}
+	else
+	{
+		printMessage("No Saved Game Found");
+	}
+}
+
+void Game::restartGame()
+{
+	budget = 2000;
+	isPaused = false;
+	printMessage("Game Restarted");
 }
