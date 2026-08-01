@@ -155,6 +155,7 @@ void Game::drawWarehouse() const
 	pWind->SetPen(BLACK, 2);
 	pWind->DrawPolygon(xArr, yArr, 3);
 
+
 	// Door
 	int doorW = 40;
 	int doorH = 60;
