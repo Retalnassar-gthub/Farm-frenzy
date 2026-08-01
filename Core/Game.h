@@ -17,6 +17,7 @@ private:
 
 public:
 	int budget = 2000;
+    bool isPaused = false;
 	int animalsBought = 0;
 	int waterBought = 0;
 	int timer = 0;
@@ -46,7 +47,11 @@ public:
 
 	void printMessage(string msg) const;
 
-	void go();
-
-	window* getWind() const;
+	void go() const;
+    void pauseGame();
+	void resumeGame();
+	void saveGame() const;
+	void loadGame();
+	void restartGame();
+window* getWind() const;
 };
