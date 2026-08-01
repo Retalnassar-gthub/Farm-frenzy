@@ -1,9 +1,9 @@
 #pragma once
 #include "../Core/Drawable.h"
 
-class Animal :public Drawable
+class Animal : public Drawable
 {
-private:
+protected:
 	string image_path;
 public:
 	point curr_pos;
@@ -22,7 +22,20 @@ public:
 
 class Cow : public Animal
 {
+private:
+	bool isSick;
 public:
 	Cow(Game* r_pGame, point r_point, int r_width, int r_height, string img_path);
 	virtual void moveStep();
+	virtual void draw() const override;
+	void setSick(bool sick);
+	bool getSick() const;
+};
+
+class Wolf : public Animal
+{
+public:
+	Wolf(Game* r_pGame, point r_point, int r_width, int r_height, string img_path);
+	virtual void moveStep();
+	virtual void draw() const override;
 };
