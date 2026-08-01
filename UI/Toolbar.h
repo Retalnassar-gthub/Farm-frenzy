@@ -1,6 +1,7 @@
 #pragma once
 #include "../Core/Drawable.h"
-
+#undef LoadIcon
+//Base class for all toolbar icons 
 class ToolbarIcon :public Drawable
 {
 private:
@@ -8,29 +9,60 @@ private:
 public:
 	ToolbarIcon(Game* r_pGame, point r_point, int r_width, int r_height, string img_path);
 	virtual void draw() const override;
-	virtual void onClick() = 0;
+	virtual void onClick() = 0;   //The action that should be taken when this icon is clicked
 };
-
+class RestartIcon : public ToolbarIcon
+{
+public:
+	RestartIcon(Game* r_pGame, point r_point, int r_width, int r_height, string img_path);
+	virtual void onClick();
+};
 class ExitIcon : public ToolbarIcon
 {
 public:
 	ExitIcon(Game* r_pGame, point r_point, int r_width, int r_height, string img_path);
 	virtual void onClick();
 };
-
+ 
+class PauseIcon : public ToolbarIcon
+{
+public:
+	PauseIcon(Game* r_pGame, point r_point, int r_width, int r_height, string img_path);
+	void onClick();
+};
+class ResumeIcon : public ToolbarIcon
+{
+public:
+	ResumeIcon(Game* r_pGame, point r_point, int r_width, int r_height, string img_path);
+	void onClick();
+};
+class SaveIcon : public ToolbarIcon
+{
+public:
+	SaveIcon(Game* r_pGame, point r_point, int r_width, int r_height, string img_path);
+	void onClick();
+};
+class LoadIcon : public ToolbarIcon
+{
+public:
+	LoadIcon(Game* r_pGame, point r_point, int r_width, int r_height, string img_path);
+	void onClick();
+};
 enum ICONS
 {
+	ICON_RESTART,
+	ICON_PAUSE,
+	ICON_RESUME,
+	ICON_SAVE,
+	ICON_LOAD,
 	ICON_EXIT,
-
 	ICON_COUNT
 };
-
 class Toolbar : public Drawable
 {
 private:
 	ToolbarIcon** iconsList;
 	string iconsImages[ICON_COUNT];
-
 public:
 	Toolbar(Game* r_pGame, point r_point, int r_width, int r_height);
 	~Toolbar();
