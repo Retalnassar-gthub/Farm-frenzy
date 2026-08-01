@@ -1,8 +1,7 @@
 #include "Toolbar.h"
 #include "../Config/GameConfig.h"
 #include "../Core/Game.h"
-#include <iostream>
-using namespace std;
+#undef LoadIcon
 
 ToolbarIcon::ToolbarIcon(Game* r_pGame, point r_point, int r_width, int r_height, string img_path) : Drawable(r_pGame, r_point, r_width, r_height)
 {
@@ -15,27 +14,83 @@ void ToolbarIcon::draw() const
 	pWind->DrawImage(image_path, RefPoint.x, RefPoint.y, width, height);
 }
 
-// ==================== Exit Icon ====================
+RestartIcon::RestartIcon(Game* r_pGame, point r_point, int r_width, int r_height, string img_path) : ToolbarIcon(r_pGame, r_point, r_width, r_height, img_path)
+{}
+
+void RestartIcon::onClick()
+{
+	pGame->restartGame();
+}
 
 ExitIcon::ExitIcon(Game* r_pGame, point r_point, int r_width, int r_height, string img_path) : ToolbarIcon(r_pGame, r_point, r_width, r_height, img_path)
 {}
 
 void ExitIcon::onClick()
 {
-	cout << "Exit Clicked" << endl;
+	//TO DO: add code for cleanup and game exit here
 }
 
-// ==================== Toolbar ====================
+PauseIcon::PauseIcon(Game* r_pGame, point r_point, int r_width, int r_height, string img_path) : ToolbarIcon(r_pGame, r_point, r_width, r_height, img_path)
+{}
+
+void PauseIcon::onClick()
+{
+	pGame->pauseGame();
+}
+
+ResumeIcon::ResumeIcon(Game* r_pGame, point r_point, int r_width, int r_height, string img_path) : ToolbarIcon(r_pGame, r_point, r_width, r_height, img_path)
+{}
+
+void ResumeIcon::onClick()
+{
+	pGame->resumeGame();
+}
+
+SaveIcon::SaveIcon(Game* r_pGame, point r_point, int r_width, int r_height, string img_path) : ToolbarIcon(r_pGame, r_point, r_width, r_height, img_path)
+{}
+
+void SaveIcon::onClick()
+{
+	pGame->saveGame();
+}
+
+LoadIcon::LoadIcon(Game* r_pGame, point r_point, int r_width, int r_height, string img_path) : ToolbarIcon(r_pGame, r_point, r_width, r_height, img_path)
+{}
+
+void LoadIcon::onClick()
+{
+	pGame->loadGame();
+}
 
 Toolbar::Toolbar(Game* r_pGame, point r_point, int r_width, int r_height) : Drawable(r_pGame, r_point, r_width, r_height)
 {
+	iconsImages[ICON_RESTART] = "images\\RESTART.jpg";
 	iconsImages[ICON_EXIT] = "images\\EXIT.jpg";
+	iconsImages[ICON_PAUSE] = "images\\PAUSE.jpg";
+	iconsImages[ICON_RESUME] = "images\\RESUME.jpg";
+	iconsImages[ICON_SAVE] = "images\\SAVE.jpg";
+	iconsImages[ICON_LOAD] = "images\\LOAD.jpg";
 
 	point p;
 	p.x = 0;
 	p.y = 0;
 
 	iconsList = new ToolbarIcon * [ICON_COUNT];
+
+	iconsList[ICON_RESTART] = new RestartIcon(pGame, p, config.iconWidth, config.toolBarHeight, iconsImages[ICON_RESTART]);
+	p.x += config.iconWidth;
+
+	iconsList[ICON_PAUSE] = new PauseIcon(pGame, p, config.iconWidth, config.toolBarHeight, iconsImages[ICON_PAUSE]);
+	p.x += config.iconWidth;
+
+	iconsList[ICON_RESUME] = new ResumeIcon(pGame, p, config.iconWidth, config.toolBarHeight, iconsImages[ICON_RESUME]);
+	p.x += config.iconWidth;
+
+	iconsList[ICON_SAVE] = new SaveIcon(pGame, p, config.iconWidth, config.toolBarHeight, iconsImages[ICON_SAVE]);
+	p.x += config.iconWidth;
+
+	iconsList[ICON_LOAD] = new LoadIcon(pGame, p, config.iconWidth, config.toolBarHeight, iconsImages[ICON_LOAD]);
+	p.x += config.iconWidth;
 
 	iconsList[ICON_EXIT] = new ExitIcon(pGame, p, config.iconWidth, config.toolBarHeight, iconsImages[ICON_EXIT]);
 }
